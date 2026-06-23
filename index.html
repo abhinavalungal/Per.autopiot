@@ -195,7 +195,35 @@
           🚢 &nbsp;Autopilot P.v.1.0.0
         </a>
         <div class="drag-hint">
-          🖱️ Drag the button above to your bookmarks bar — or right-click → Bookmark this link.
+          🖱️ Drag the button above into your bookmarks bar.
+        </div>
+
+        <!-- Manual fallback for when drag doesn't work -->
+        <div style="margin-top:18px; background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:14px 16px;">
+          <div style="font-size:12px; color:#6e7681; text-transform:uppercase; letter-spacing:.07em; margin-bottom:8px;">
+            🔧 Drag not working? Use this instead:
+          </div>
+          <ol style="font-size:13px; color:#8b949e; line-height:2; padding-left:18px; margin-bottom:12px;">
+            <li>Click <strong style="color:#e6edf3">📋 Copy</strong> below to copy the bookmarklet code.</li>
+            <li>Open your bookmarks manager (Ctrl+Shift+O / ⌘+Option+B).</li>
+            <li>Create a <strong style="color:#e6edf3">New Bookmark</strong>.</li>
+            <li>Set the <strong style="color:#e6edf3">Name</strong> to: <code style="color:#58a6ff">🚢 Autopilot P.v.1.0.0</code></li>
+            <li>Paste the copied code into the <strong style="color:#e6edf3">URL / Location</strong> field.</li>
+            <li>Save — done.</li>
+          </ol>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button id="copy-btn" style="
+              background:#1f6feb; color:#fff; border:none; border-radius:6px;
+              padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer;">
+              📋 Copy
+            </button>
+            <code id="manual-code" style="
+              font-size:10px; color:#6e7681; word-break:break-all;
+              flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;
+              white-space:nowrap; display:block;">
+              (generating…)
+            </code>
+          </div>
         </div>
       </div>
     </div>
@@ -236,9 +264,19 @@
 const LOADER_URL = 'https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USER/YOUR_REPO@main/loader.js';
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Build the bookmarklet href: a tiny JS stub that fetches loader.js
-const stub = `(function(){var s=document.createElement('script');s.src='${LOADER_URL}?v='+Date.now();document.body.appendChild(s);})();`;
-const bookmarkletHref = 'javascript:' + stub;
+// Build the bookmarklet href.
+// Uses fetch() + Function() — the only method that works reliably as a
+// bookmarklet across Chrome, Edge, and Firefox.
+// appendChild(script) is silently blocked by browsers in bookmarklet context.
+const stub = `(function(){` +
+  `var u='${LOADER_URL}?v='+Date.now();` +
+  `fetch(u)` +
+  `.then(function(r){return r.text();})` +
+  `.then(function(t){new Function(t)();})` +
+  `.catch(function(e){alert('Autopilot failed to load: '+e.message);});` +
+`})();`;
+
+const bookmarkletHref = 'javascript:void ' + encodeURIComponent('(' + stub + ')()');
 
 // Inject into the drag link
 const link = document.getElementById('bookmarklet-link');
@@ -246,6 +284,18 @@ link.href = bookmarkletHref;
 
 // Show loader URL in status
 document.getElementById('st-url').textContent = LOADER_URL;
+
+// ── Manual copy fallback (shown below the drag button) ───────────────────────
+const codeBox = document.getElementById('manual-code');
+if (codeBox) codeBox.textContent = bookmarkletHref;
+
+document.getElementById('copy-btn')?.addEventListener('click', function () {
+  navigator.clipboard.writeText(bookmarkletHref).then(function () {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✅ Copied!';
+    setTimeout(function () { btn.textContent = '📋 Copy'; }, 2000);
+  });
+});
 </script>
 
 </body>
