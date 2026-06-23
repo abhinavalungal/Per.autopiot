@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Autopilot Bookmarklet Setup</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 40px 44px;
+    max-width: 680px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: #1f6feb;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+
+  .logo-text h1 { font-size: 18px; color: #e6edf3; font-weight: 600; }
+  .logo-text p  { font-size: 13px; color: #8b949e; margin-top: 2px; }
+
+  h2 {
+    font-size: 22px;
+    color: #e6edf3;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #8b949e;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  /* ── Step blocks ─────────────────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 24px; }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    min-width: 32px; height: 32px;
+    background: #1f6feb22;
+    border: 1px solid #1f6feb66;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #58a6ff;
+    margin-top: 2px;
+  }
+
+  .step-body h3 { font-size: 15px; color: #e6edf3; margin-bottom: 6px; }
+  .step-body p  { font-size: 13px; color: #8b949e; line-height: 1.6; }
+
+  /* ── Drag target ─────────────────────────────────── */
+  .drag-target {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1f6feb;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: grab;
+    border: 2px dashed transparent;
+    transition: background 0.2s, border-color 0.2s;
+    margin-top: 10px;
+    user-select: none;
+    text-decoration: none;
+  }
+
+  .drag-target:hover {
+    background: #388bfd;
+    border-color: #58a6ff;
+  }
+
+  .drag-target:active { cursor: grabbing; }
+
+  .drag-hint {
+    font-size: 12px;
+    color: #6e7681;
+    margin-top: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ── Status section ──────────────────────────────── */
+  .status-box {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 13px;
+    font-family: monospace;
+    color: #8b949e;
+    margin-top: 32px;
+  }
+
+  .status-box .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6e7681;
+    margin-bottom: 8px;
+  }
+
+  .status-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .status-row span:last-child { color: #3fb950; }
+
+  /* ── Divider ─────────────────────────────────────── */
+  hr { border: none; border-top: 1px solid #21262d; margin: 28px 0; }
+
+  .warning-box {
+    background: #ff9800110;
+    border: 1px solid #e6503055;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #d29922;
+    line-height: 1.6;
+    margin-top: 20px;
+  }
+
+  .warning-box strong { color: #f0883e; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="logo">
+    <div class="logo-icon">⚓</div>
+    <div class="logo-text">
+      <h1>GeoEmissions Maritime Autopilot</h1>
+      <p>Performance Team Edition — P.v.1.0.0</p>
+    </div>
+  </div>
+
+  <h2>Bookmarklet Setup</h2>
+  <p class="subtitle">
+    Drag the button below to your browser's bookmarks toolbar.
+    The bookmark will always load the <strong style="color:#58a6ff">latest approved version</strong>
+    automatically — you never need to update it again.
+  </p>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Show your bookmarks toolbar</h3>
+        <p>
+          Chrome / Edge: <kbd>Ctrl+Shift+B</kbd> (Windows) or <kbd>⌘+Shift+B</kbd> (Mac).<br>
+          Firefox: View → Toolbars → Bookmarks Toolbar.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Drag this button to your toolbar</h3>
+        <p>Click and drag the button below into your bookmarks bar.</p>
+        <!-- The href is injected by the script below -->
+        <a id="bookmarklet-link" class="drag-target" href="#" title="Drag me to your bookmarks bar">
+          🚢 &nbsp;Autopilot P.v.1.0.0
+        </a>
+        <div class="drag-hint">
+          🖱️ Drag the button above to your bookmarks bar — or right-click → Bookmark this link.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Click the bookmark to activate</h3>
+        <p>
+          Navigate to your GeoEmissions report page, then click the bookmark.
+          The autopilot will load the latest live version each time.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <div class="status-box">
+    <div class="label">Loader Status</div>
+    <div class="status-row"><span>Access</span><span id="st-access">✅ Enabled</span></div>
+    <div class="status-row"><span>Current version</span><span id="st-ver">P.v.1.0.0</span></div>
+    <div class="status-row"><span>Loader URL</span><span id="st-url" style="color:#8b949e; font-size:11px">—</span></div>
+  </div>
+
+  <div class="warning-box">
+    <strong>Admin note:</strong> the bookmark only points to <code>loader.js</code> on your server.
+    Push a new <code>autopilot_Pv100.js</code> to GitHub to update all users instantly.
+    To disable access, set <code>ACCESS_ENABLED&nbsp;=&nbsp;false</code> in <code>loader.js</code>.
+  </div>
+
+</div>
+
+<script>
+// ── CONFIG: point this at wherever you host loader.js ────────────────────────
+//   Change this one URL when you move hosts. Nothing else changes.
+const LOADER_URL = 'https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USER/YOUR_REPO@main/loader.js';
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Build the bookmarklet href: a tiny JS stub that fetches loader.js
+const stub = `(function(){var s=document.createElement('script');s.src='${LOADER_URL}?v='+Date.now();document.body.appendChild(s);})();`;
+const bookmarkletHref = 'javascript:' + stub;
+
+// Inject into the drag link
+const link = document.getElementById('bookmarklet-link');
+link.href = bookmarkletHref;
+
+// Show loader URL in status
+document.getElementById('st-url').textContent = LOADER_URL;
+</script>
+
+</body>
+</html>
