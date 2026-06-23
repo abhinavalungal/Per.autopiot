@@ -1,5 +1,5 @@
 // =============================================================================
-//   MARITIME AUTOPILOT — CENTRALIZED LOADER
+//   MARITIME AUTOPILOT — CENTRALIZED LOADER - new!!!!!!!!!!
 //   Hosted at a permanent URL you control (e.g. GitHub raw / your CDN).
 //
 //   HOW IT WORKS
